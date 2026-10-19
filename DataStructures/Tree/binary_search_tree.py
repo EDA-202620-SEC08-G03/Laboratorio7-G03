@@ -20,6 +20,7 @@ def insert_node(root, key, value):
         else:
             insert_node(root["left"],key,value)
     return root
+
 def get(my_bst, key):
     
     value = get_node(my_bst["root"], key)
@@ -73,14 +74,3 @@ def size_tree(node):
     
 def size(my_bst):
     return size_tree(my_bst["root"])
-    
-def insert_node(root, key, value):
-    if root is None:
-        return {"key": key, "value": value, "left": None, "right": None}
-    elif key < root["key"]:
-        root["left"] = insert_node(root["left"], key, value)
-    elif key > root["key"]:
-        root["right"] = insert_node(root["right"], key, value)
-    else:
-        root["value"] = value
-    return root   
