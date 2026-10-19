@@ -3,7 +3,22 @@ from DataStructures.List import array_list as al
 def put(my_bts, key, value):
     pass  
 def insert_node(root, key, value):
-    pass
+    if root is None:
+        return None
+    if key > root:
+        if root["right"] is None:
+            root["right"] = key
+            root["right"]["value"] = value
+        else:
+            insert_node(root["right"],key, value)
+    elif key<root:
+        if root["left"] is None:
+            root["left"] = key
+            root["left"]["value"] = value
+        else:
+            insert_node(root["left"],key,value)
+    return root
+        
 def get(my_bst, key):
     pass
 def get_node(root, key):
