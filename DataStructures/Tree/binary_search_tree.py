@@ -1,19 +1,23 @@
 from DataStructures.List import array_list as al
-
+from DataStructures.Tree import bst_node as node
+def new_map():
+    return {"root":None}
 def put(my_bts, key, value):
     if my_bts["root"]==key:
         my_bts["root"]["value"]=value
-    
+    else:
+        insert_node(my_bts,key,value)
+    return my_bts
 def insert_node(root, key, value):
     if root is None:
         return {"key": key, "value": value, "left": None, "right": None}
-    if key > root:
+    if key > root["key"]:
         if root["right"] is None:
             root["right"] = key
             root["right"]["value"] = value
         else:
             insert_node(root["right"],key, value)
-    elif key<root:
+    elif key<root["key"]:
         if root["left"] is None:
             root["left"] = key
             root["left"]["value"] = value
