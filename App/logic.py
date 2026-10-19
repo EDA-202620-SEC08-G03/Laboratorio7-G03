@@ -28,8 +28,8 @@ import os
 import csv
 import datetime
 
-# TODO Realice la importación del Árbol Binario Ordenado
-# TODO Realice la importación de ArrayList (al) como estructura de datos auxiliar para sus requerimientos
+from DataStructures.Tree import binary_search_tree as bts
+from DataStructures.List import array_list as al
 # TODO Realice la importación de LinearProbing (lp) como estructura de datos auxiliar para sus requerimientos
 
 
