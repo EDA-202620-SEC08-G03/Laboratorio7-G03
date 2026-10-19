@@ -12,5 +12,7 @@ def remove(my_bst, key):
     pass
 def size(my_bst):
     pass
-def size_tree(root):
-    pass
+def size_tree(node):
+    if node is None:
+        return 0
+    else:
