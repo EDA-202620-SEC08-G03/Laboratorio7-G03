@@ -22,8 +22,33 @@ def get_node(root, key):
         else:
             return get_node(root["right"], key)
         
-def remove(my_bst, key):
-    pass
+def buscar (node):
+    if node["right"] is None:
+        return node
+    else:
+        return buscar(node["right"])
+
+def remove_node (node, key):
+    
+    if node is None:
+        return None
+    
+    if key > node["key"]:
+        node["right"] = remove_node(node["right"], key)
+    elif key < node["key"]:
+        node["left"] = remove_node(node["left"], key)
+    else:
+        if node["left"] is None and node["right"] is None:
+            return None
+        if node["left"] is None and node["right"] is not None:
+            return node["right"]
+        if node["left"] is not None and node["right"] is None:
+            return node["left"]     
+        else:
+            return buscar(node["left"])
+  
+    node["size"] -= 1
+    return node
 
 def size_tree(node):
     if node is None:
