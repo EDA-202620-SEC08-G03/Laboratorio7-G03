@@ -1,28 +1,27 @@
 from DataStructures.List import array_list as al
 
 def put(my_bts, key, value):
-    pass  
+    pass 
 def insert_node(root, key, value):
+    pass
+
+def get(my_bst, key):
+    
+    value = get_node(my_bst["root"], key)
+    return value
+
+def get_node(root, key):
+    
     if root is None:
         return None
-    if key > root:
-        if root["right"] is None:
-            root["right"] = key
-            root["right"]["value"] = value
+    else:
+        if key == root["key"]:
+            return root["value"]
+        elif key < root["key"]:
+            return get_node(root["left"], key)
         else:
-            insert_node(root["right"],key, value)
-    elif key<root:
-        if root["left"] is None:
-            root["left"] = key
-            root["left"]["value"] = value
-        else:
-            insert_node(root["left"],key,value)
-    return root
+            return get_node(root["right"], key)
         
-def get(my_bst, key):
-    pass
-def get_node(root, key):
-    pass
 def remove(my_bst, key):
     pass
 
