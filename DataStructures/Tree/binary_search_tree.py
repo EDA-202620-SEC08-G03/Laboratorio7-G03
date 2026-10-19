@@ -16,7 +16,10 @@ def size_tree(node):
     if node is None:
         return 0
     else:
-        return 1 + size_tree(node["left"]) + size_tree(node["right"])
+        return size_tree(node["left"]) + size_tree(node["right"]) + 1
+    
+def size(my_bst):
+    return size_tree(my_bst["root"])
     
 def insert_node(root, key, value):
     if root is None:
