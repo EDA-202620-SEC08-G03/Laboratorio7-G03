@@ -28,7 +28,7 @@ import os
 import csv
 import datetime
 
-from DataStructures.Tree import binary_search_tree as bts
+from DataStructures.Tree import binary_search_tree as bst
 from DataStructures.List import array_list as al
 from DataStructures.Map import map_linear_probing as lp
 
