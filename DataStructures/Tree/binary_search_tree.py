@@ -25,11 +25,6 @@ def insert_node(root, key, value):
             insert_node(root["left"],key,value)
     return root
 
-def get(my_bst, key):
-    
-    value = get_node(my_bst["root"], key)
-    return value
-
 def get_node(root, key):
     
     if root is None:
@@ -41,6 +36,11 @@ def get_node(root, key):
             return get_node(root["left"], key)
         else:
             return get_node(root["right"], key)
+
+def get(my_bst, key):
+    
+    value = get_node(my_bst["root"], key)
+    return value
         
 def buscar (node):
     if node["right"] is None:
