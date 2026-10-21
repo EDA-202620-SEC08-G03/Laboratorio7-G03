@@ -34,22 +34,6 @@ def new_node(key, value):
     return node
 
 
-def get_value(my_node):
-    """
-    Obtiene el valor ``value`` de un nodo recibido.
-
-    :param my_node: El nodo con la iformación
-    :type my_node: bst_node
-
-    :returns: El valor almacenado en el nodo
-    :rtype: any
-    """
-    value = None
-    if my_node is not None:
-        value = my_node["value"]
-    return value
-
-
 def get_key(my_node):
     """
     Obtiene la llave ``key`` de un nodo recibido.

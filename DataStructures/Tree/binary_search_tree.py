@@ -1,74 +1,80 @@
 from DataStructures.List import array_list as al
-from DataStructures.Tree import bst_node as node
+from DataStructures.Tree import bst_node as bnode
+
 def new_map():
     return {"root":None}
+
+
 def put(my_bts, key, value):
-    if my_bts["root"]==key:
-        my_bts["root"]["value"]=value
-    else:
-        insert_node(my_bts,key,value)
+
+    my_bts["root"] = insert_node(my_bts["root"], key, value)
     return my_bts
-def insert_node(root, key, value):
+
+def insert_node (root, key, value):
     if root is None:
-        return {"key": key, "value": value, "left": None, "right": None}
+        return bnode.new_node(key, value)
+    
     if key > root["key"]:
-        if root["right"] is None:
-            root["right"] = key
-            root["right"]["value"] = value
-        else:
-            insert_node(root["right"],key, value)
-    elif key<root["key"]:
-        if root["left"] is None:
-            root["left"] = key
-            root["left"]["value"] = value
-        else:
-            insert_node(root["left"],key,value)
+        return insert_node(root["right"], key, value)
+    elif key < root["key"]:
+        return insert_node(root["left"], key, value)
+    else:
+        root["value"] = value
+        
+    root["size"] = 1 + size_tree(root["left"]) + size_tree(root["right"])
+        
     return root
+
 
 def get_node(root, key):
     
     if root is None:
         return None
-    else:
-        if key == root["key"]:
-            return root["value"]
-        elif key < root["key"]:
-            return get_node(root["left"], key)
-        else:
-            return get_node(root["right"], key)
+    
+    if key < root["key"]:
+        return get_node(root["left"], key)
+    elif key > root["key"]:
+        return get_node(root["right"], key)
+    else:   
+        return bnode.get_value(root)
 
 def get(my_bst, key):
     
     value = get_node(my_bst["root"], key)
     return value
         
-def buscar (node):
-    if node["right"] is None:
-        return node
-    else:
-        return buscar(node["right"])
+        
+def remove (my_bst, key):
+    my_bst["root"] = remove_node(my_bst["root"], key)
+    return my_bst
 
-def remove_node (node, key):
+def remove_node (root, key):
     
-    if node is None:
+    if root is None:
         return None
     
-    if key > node["key"]:
-        node["right"] = remove_node(node["right"], key)
-    elif key < node["key"]:
-        node["left"] = remove_node(node["left"], key)
+    if key < root["key"]:
+        root["left"] = remove_node(root["left"], key)
+    elif key > root["key"]:
+        root["right"] = remove_node(root["right"], key)
     else:
-        if node["left"] is None and node["right"] is None:
+        if root["right"] is None and root["left"] is None:
             return None
-        if node["left"] is None and node["right"] is not None:
-            return node["right"]
-        if node["left"] is not None and node["right"] is None:
-            return node["left"]     
+        elif root["right"] is not None and root["left"] is None:
+            return root["right"]
+        elif root["right"] is None and root["left"] is not None:
+            return root["left"]
         else:
-            return buscar(node["left"])
-  
-    node["size"] -= 1
-    return node
+            menormayores = root["right"]
+            while menormayores["left"] is not None:
+                menormayores = menormayores["left"]
+                
+            root["key"] = menormayores["key"]
+            root["value"] = menormayores["value"]
+            root["right"] = remove_node(root["right"], root["key"])
+            
+    return root
+
 
 def size_tree(node):
     if node is None:
