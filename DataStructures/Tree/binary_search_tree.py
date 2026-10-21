@@ -18,12 +18,12 @@ def insert_node (root, key, value):
     
     if key > root["key"]:
         return insert_node(root["right"], key, value)
+
     elif key < root["key"]:
         return insert_node(root["left"], key, value)
     else:
-        root["value"] = value
-        
-    root["size"] = 1 + size_tree(root["left"]) + size_tree(root["right"])
+        root["value"] = value        
+        root["size"] = size_tree(root["left"]) + size_tree(root["right"]) + 1
         
     return root
 
@@ -57,13 +57,16 @@ def remove_node (root, key):
     
     if key < root["key"]:
         root["left"] = remove_node(root["left"], key)
+        root["size"] = size_tree(root["left"]) + size_tree(root["right"]) + 1
     elif key > root["key"]:
         root["right"] = remove_node(root["right"], key)
+        root["size"] = size_tree(root["left"]) + size_tree(root["right"]) + 1
     else:
         if root["right"] is None and root["left"] is None:
             return None
         elif root["right"] is not None and root["left"] is None:
             return root["right"]
+        
         elif root["right"] is None and root["left"] is not None:
             return root["left"]
         else:
@@ -74,6 +77,7 @@ def remove_node (root, key):
             root["key"] = menormayores["key"]
             root["value"] = menormayores["value"]
             root["right"] = remove_node(root["right"], root["key"])
+            root["size"] = size_tree(root["left"]) + size_tree(root["right"]) + 1
             
     return root
 
@@ -88,7 +92,7 @@ def size(my_bst):
     return size_tree(my_bst["root"])
 
 def contains(my_bst, key):
-    booleano = al.get_element(key, my_bst["root"]) is not None
+    booleano = al.get_element(my_bst["root"], key) is not None
     return booleano
 
 def is_empty(my_bst):
@@ -97,22 +101,22 @@ def is_empty(my_bst):
 
 def key_set_tree(node, keys):
     if node is not None:
-        key_set_tree(keys, node["left"])
-        al.add_last(keys, node["key"])
-        key_set_tree(keys, node["right"])
+        key_set_tree(node["left"], keys)
+        al.add_last(node["key"], keys)
+        key_set_tree(node["right"], keys)
         
     return None
 
 def key_set(my_bst):
     keys = al.new_list()
-    key_set_tree(keys, my_bst["root"])
+    key_set_tree(my_bst["root"], keys)
     return keys
 
 def value_set_tree(node, values):
     if node is not None:
-        value_set_tree(values, node["left"])
-        al.add_last(values, node["value"])
-        value_set_tree(values, node["right"])
+        value_set_tree(node["left"], values)
+        al.add_last(node["value"], values)
+        value_set_tree(node["right"], values)
     return None
         
 def value_set(my_bst):
