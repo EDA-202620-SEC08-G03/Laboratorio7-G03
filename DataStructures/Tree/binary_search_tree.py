@@ -88,27 +88,32 @@ def size(my_bst):
     return size_tree(my_bst["root"])
 
 def contains(my_bst, key):
-    return get(my_bst["root"], key) is not None
+    booleano = al.get_element(key, my_bst["root"]) is not None
+    return booleano
 
 def is_empty(my_bst):
-    return my_bst["root"] is None
+    booleano = my_bst["root"] is None
+    return booleano
 
 def key_set_tree(node, keys):
     if node is not None:
-        key_set_tree(node["left"], keys)
-        keys.add(node["key"])
-        key_set_tree(node["right"], keys)
+        key_set_tree(keys, node["left"])
+        al.add_last(keys, node["key"])
+        key_set_tree(keys, node["right"])
+        
+    return None
 
 def key_set(my_bst):
     keys = al.new_list()
-    key_set_tree(my_bst["root"], keys)
+    key_set_tree(keys, my_bst["root"])
     return keys
 
 def value_set_tree(node, values):
     if node is not None:
-        value_set_tree(node["left"], values)
-        values.add(node["value"])
-        value_set_tree(node["right"], values)
+        value_set_tree(values, node["left"])
+        al.add_last(values, node["value"])
+        value_set_tree(values, node["right"])
+    return None
         
 def value_set(my_bst):
     values = al.new_list()
@@ -135,4 +140,30 @@ def get_max(my_bst):
     
     return None
     
+def delete_min_tree(node):
+    if node is not None:
+        if node["left"] is None:
+            return node["right"]
+        
+        node["left"] = delete_min_tree(node["left"])
+        return node
+    return None
+
+def delete_min(my_bst):
+    my_bst["root"] = delete_min_tree(my_bst["root"])
+    return my_bst
+
+def delete_max_tree(node):
+    if node is not None:
+    
+        if node["right"] is None:
+            return node["left"]
+        
+        node["right"] = delete_max_tree(node["right"])
+        return node
+    return None
+
+def delete_max(my_bst):
+    my_bst["root"] = delete_max_tree(my_bst["root"])
+    return my_bst
     
