@@ -1,3 +1,5 @@
+from platform import node
+
 from DataStructures.List import array_list as al
 from DataStructures.Tree import bst_node as bnode
 
@@ -84,3 +86,53 @@ def size_tree(node):
     
 def size(my_bst):
     return size_tree(my_bst["root"])
+
+def contains(my_bst, key):
+    return get(my_bst["root"], key) is not None
+
+def is_empty(my_bst):
+    return my_bst["root"] is None
+
+def key_set_tree(node, keys):
+    if node is not None:
+        key_set_tree(node["left"], keys)
+        keys.add(node["key"])
+        key_set_tree(node["right"], keys)
+
+def key_set(my_bst):
+    keys = al.new_list()
+    key_set_tree(my_bst["root"], keys)
+    return keys
+
+def value_set_tree(node, values):
+    if node is not None:
+        value_set_tree(node["left"], values)
+        values.add(node["value"])
+        value_set_tree(node["right"], values)
+        
+def value_set(my_bst):
+    values = al.new_list()
+    value_set_tree(my_bst["root"], values)
+    return values
+
+def get_min(my_bst):
+    if my_bst["root"] is not None:
+        
+        menor = my_bst["root"]
+        while menor["left"] is not None:
+            menor = menor["left"]
+        return menor["key"], menor["value"]
+    
+    return None
+
+def get_max(my_bst):
+    if my_bst["root"] is not None:
+        
+        mayor = my_bst["root"]
+        while mayor["right"] is not None:
+            mayor = mayor["right"]
+        return mayor["key"], mayor["value"]
+    
+    return None
+    
+    
