@@ -146,6 +146,7 @@ def delete_min_tree(node):
             return node["right"]
         
         node["left"] = delete_min_tree(node["left"])
+        node["size"] = size_tree(node["left"]) + size_tree(node["right"]) + 1
         return node
     return None
 
@@ -160,6 +161,7 @@ def delete_max_tree(node):
             return node["left"]
         
         node["right"] = delete_max_tree(node["right"])
+        node["size"] = size_tree(node["left"]) + size_tree(node["right"]) + 1
         return node
     return None
 
