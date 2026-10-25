@@ -1,5 +1,3 @@
-from platform import node
-
 from DataStructures.List import single_linked_list as sl
 from DataStructures.Tree import bst_node as bnode
 
@@ -16,10 +14,10 @@ def insert_node (root, key, value):
     if root is None:
         return bnode.new_node(key, value)
     
-    if key > root["key"]:
+    if key > bnode.get_key(root):
         return insert_node(root["right"], key, value)
 
-    elif key < root["key"]:
+    elif key < bnode.get_key(root):
         return insert_node(root["left"], key, value)
     else:
         root["value"] = value        
@@ -33,9 +31,9 @@ def get_node(root, key):
     if root is None:
         return None
     
-    if key < root["key"]:
+    if key < bnode.get_key(root):
         return get_node(root["left"], key)
-    elif key > root["key"]:
+    elif key > bnode.get_key(root):
         return get_node(root["right"], key)
     else:   
         return bnode.get_value(root)
@@ -55,10 +53,10 @@ def remove_node (root, key): # No estaba en el laboratorio, pero como estaba en 
     if root is None:
         return None
     
-    if key < root["key"]:
+    if key < bnode.get_key(root):
         root["left"] = remove_node(root["left"], key)
         root["size"] = size_tree(root["left"]) + size_tree(root["right"]) + 1
-    elif key > root["key"]:
+    elif key > bnode.get_key(root):
         root["right"] = remove_node(root["right"], key)
         root["size"] = size_tree(root["left"]) + size_tree(root["right"]) + 1
     else:
@@ -74,9 +72,9 @@ def remove_node (root, key): # No estaba en el laboratorio, pero como estaba en 
             while menormayores["left"] is not None:
                 menormayores = menormayores["left"]
                 
-            root["key"] = menormayores["key"]
-            root["value"] = menormayores["value"]
-            root["right"] = remove_node(root["right"], root["key"])
+            root["key"] = bnode.get_key(menormayores)
+            root["value"] = bnode.get_value(menormayores)
+            root["right"] = remove_node(root["right"], bnode.get_key(root))
             root["size"] = size_tree(root["left"]) + size_tree(root["right"]) + 1
             
     return root
@@ -108,7 +106,7 @@ def is_empty(my_bst):
 def key_set_tree(root, keys):
     if root is not None:
         key_set_tree(root["left"], keys)
-        sl.add_last(keys, root["key"])
+        sl.add_last(keys, bnode.get_key(root))
         key_set_tree(root["right"], keys)
         
     return None
@@ -122,7 +120,7 @@ def key_set(my_bst):
 def value_set_tree(root, values):
     if root is not None:
         value_set_tree(root["left"], values)
-        sl.add_last(values, root["value"])
+        sl.add_last(values, bnode.get_value(root))
         value_set_tree(root["right"], values)
     return None
         
@@ -139,7 +137,7 @@ def get_min_node(root):
     while raiz["left"] is not None:
         raiz = raiz["left"]
         
-    return raiz["key"] 
+    return bnode.get_key(raiz)
 
 def get_min(my_bst):
     if my_bst["root"] is not None:
@@ -155,7 +153,7 @@ def get_max_node(root):
     while raiz["right"] is not None:
         raiz = raiz["right"]
         
-    return raiz["key"]
+    return bnode.get_key(raiz)
 
 def get_max(my_bst):
     
@@ -216,17 +214,17 @@ def floor_key (root, key): # No estaba en el laboratorio, pero como estaba en el
     if root is None:
         return None
     
-    if key == root["key"]:
-        return root["key"]
+    if key == bnode.get_key(root):
+        return bnode.get_key(root)
     
-    if key < root["key"]:
+    if key < bnode.get_key(root):
         return floor_key(root["left"], key)
     
     elegido = floor_key(root["right"], key)
     if elegido is not None:
         return elegido
     
-    return root["key"]
+    return bnode.get_key(root)
 
 def floor (my_bst, key): # No estaba en el laboratorio, pero como estaba en el test, la implementamos por si acaso y para futuros labs.
     
@@ -238,17 +236,17 @@ def ceiling_key (root, key): # No estaba en el laboratorio, pero como estaba en 
     if root is None:
         return None
     
-    if key == root["key"]:
-        return root["key"]
+    if key == bnode.get_key(root):
+        return bnode.get_key(root)
     
-    if key > root["key"]:
+    if key > bnode.get_key(root):
         return floor_key(root["right"], key)
     
     elegido = floor_key(root["right"], key)
     if elegido is not None:
         return elegido
     
-    return root["key"]
+    return bnode.get_key(root)
 
 def ceiling (my_bst, key): # No estaba en el laboratorio, pero como estaba en el test, la implementamos por si acaso y para futuros labs.
     
@@ -260,13 +258,13 @@ def keys_range (root, key_initial, key_final, list_key):
     if root is None:
         return list_key
     
-    if key_initial < root["key"]:
+    if key_initial < bnode.get_key(root):
         keys_range(root["left"], key_initial, key_final, list_key)
     
-    if key_initial <= root["key"] <= key_final:
-        sl.add_last(list_key, root["key"])
+    if key_initial <= bnode.get_key(root) <= key_final:
+        sl.add_last(list_key, bnode.get_key(root))
         
-    if root["key"] < key_final:
+    if bnode.get_key(root) < key_final:
         keys_range(root["right"], key_initial, key_final, list_key)
         
     return list_key
@@ -284,13 +282,13 @@ def values_range (root, key_lo, key_hi, list_values):
     if root is None:
         return list_values
     
-    if key_lo < root["key"]:
+    if key_lo < bnode.get_key(root):
         values_range(root["left"], key_lo, key_hi, list_values)
         
-    if key_lo <= root["key"] <= key_hi:
-        sl.add_last(list_values, root["value"])
+    if key_lo <= bnode.get_key(root) <= key_hi:
+        sl.add_last(list_values, bnode.get_value(root))
         
-    if root["key"] < key_hi:
+    if bnode.get_key(root) < key_hi:
         values_range(root["right"], key_lo, key_hi, list_values)
         
     return list_values
@@ -331,7 +329,7 @@ def rank_keys (root, key): # No estaba en el laboratorio, pero como estaba en el
     if root is None:
         return 0
     
-    if key <= root["key"]:
+    if key <= bnode.get_key(root):
         return rank_keys(root["left"], key)
     
     return 1 + size_tree(root["left"]) + rank_keys(root["right"], key)
