@@ -1,6 +1,6 @@
 from platform import node
 
-from DataStructures.List import array_list as al
+from DataStructures.List import single_linked_list as sl
 from DataStructures.Tree import bst_node as bnode
 
 def new_map():
@@ -91,38 +91,46 @@ def size_tree(root):
 def size(my_bst):
     return size_tree(my_bst["root"])
 
+
 def contains(my_bst, key):
-    booleano = al.get_element(my_bst["root"], key) is not None
-    return booleano
+    busqueda = get(my_bst, key)
+    if busqueda is None:
+        return False
+    else:
+        return True
+
 
 def is_empty(my_bst):
     booleano = my_bst["root"] is None
     return booleano
 
-def key_set_tree(node, keys):
-    if node is not None:
-        key_set_tree(node["left"], keys)
-        al.add_last(node["key"], keys)
-        key_set_tree(node["right"], keys)
+
+def key_set_tree(root, keys):
+    if root is not None:
+        key_set_tree(root["left"], keys)
+        sl.add_last(keys, root["key"])
+        key_set_tree(root["right"], keys)
         
     return None
 
 def key_set(my_bst):
-    keys = al.new_list()
+    keys = sl.new_list()
     key_set_tree(my_bst["root"], keys)
     return keys
+
 
 def value_set_tree(root, values):
     if root is not None:
         value_set_tree(root["left"], values)
-        al.add_last(node["value"], values)
+        sl.add_last(values, root["value"])
         value_set_tree(root["right"], values)
     return None
         
 def value_set(my_bst):
-    values = al.new_list()
+    values = sl.new_list()
     value_set_tree(my_bst["root"], values)
     return values
+
 
 def get_min(my_bst):
     if my_bst["root"] is not None:
@@ -134,6 +142,7 @@ def get_min(my_bst):
     
     return None
 
+
 def get_max(my_bst):
     if my_bst["root"] is not None:
         
@@ -143,6 +152,7 @@ def get_max(my_bst):
         return mayor["key"], mayor["value"]
     
     return None
+   
     
 def delete_min_tree(root):
     if root is not None:
@@ -157,6 +167,7 @@ def delete_min_tree(root):
 def delete_min(my_bst):
     my_bst["root"] = delete_min_tree(my_bst["root"])
     return my_bst
+
 
 def delete_max_tree(root):
     if root is not None:
