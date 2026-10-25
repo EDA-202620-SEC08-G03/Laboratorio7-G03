@@ -82,11 +82,11 @@ def remove_node (root, key):
     return root
 
 
-def size_tree(node):
-    if node is None:
+def size_tree(root):
+    if root is None:
         return 0
     else:
-        return size_tree(node["left"]) + size_tree(node["right"]) + 1
+        return size_tree(root["left"]) + size_tree(root["right"]) + 1
     
 def size(my_bst):
     return size_tree(my_bst["root"])
@@ -112,11 +112,11 @@ def key_set(my_bst):
     key_set_tree(my_bst["root"], keys)
     return keys
 
-def value_set_tree(node, values):
-    if node is not None:
-        value_set_tree(node["left"], values)
+def value_set_tree(root, values):
+    if root is not None:
+        value_set_tree(root["left"], values)
         al.add_last(node["value"], values)
-        value_set_tree(node["right"], values)
+        value_set_tree(root["right"], values)
     return None
         
 def value_set(my_bst):
@@ -144,29 +144,29 @@ def get_max(my_bst):
     
     return None
     
-def delete_min_tree(node):
-    if node is not None:
-        if node["left"] is None:
-            return node["right"]
+def delete_min_tree(root):
+    if root is not None:
+        if root["left"] is None:
+            return root["right"]
         
-        node["left"] = delete_min_tree(node["left"])
-        node["size"] = size_tree(node["left"]) + size_tree(node["right"]) + 1
-        return node
+        root["left"] = delete_min_tree(root["left"])
+        root["size"] = size_tree(root["left"]) + size_tree(root["right"]) + 1
+        return root
     return None
 
 def delete_min(my_bst):
     my_bst["root"] = delete_min_tree(my_bst["root"])
     return my_bst
 
-def delete_max_tree(node):
-    if node is not None:
+def delete_max_tree(root):
+    if root is not None:
     
-        if node["right"] is None:
-            return node["left"]
+        if root["right"] is None:
+            return root["left"]
         
-        node["right"] = delete_max_tree(node["right"])
-        node["size"] = size_tree(node["left"]) + size_tree(node["right"]) + 1
-        return node
+        root["right"] = delete_max_tree(root["right"])
+        root["size"] = size_tree(root["left"]) + size_tree(root["right"]) + 1
+        return root
     return None
 
 def delete_max(my_bst):
