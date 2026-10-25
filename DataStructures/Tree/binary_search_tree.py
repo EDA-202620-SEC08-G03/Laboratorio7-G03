@@ -46,11 +46,11 @@ def get(my_bst, key):
     return value
         
         
-def remove (my_bst, key):
+def remove (my_bst, key): # No estaba en el laboratorio, pero como estaba en el test, la implementamos por si acaso y para futuros labs.
     my_bst["root"] = remove_node(my_bst["root"], key)
     return my_bst
 
-def remove_node (root, key):
+def remove_node (root, key): # No estaba en el laboratorio, pero como estaba en el test, la implementamos por si acaso y para futuros labs.
     
     if root is None:
         return None
@@ -132,24 +132,35 @@ def value_set(my_bst):
     return values
 
 
+def get_min_node(root):
+    
+    raiz = root
+    
+    while raiz["left"] is not None:
+        raiz = raiz["left"]
+        
+    return raiz["key"] 
+
 def get_min(my_bst):
     if my_bst["root"] is not None:
-        
-        menor = my_bst["root"]
-        while menor["left"] is not None:
-            menor = menor["left"]
-        return menor["key"], menor["value"]
+        return get_min_node(my_bst["root"])
     
     return None
 
 
-def get_max(my_bst):
-    if my_bst["root"] is not None:
+def get_max_node(root):
+    
+    raiz = root
+    
+    while raiz["right"] is not None:
+        raiz = raiz["right"]
         
-        mayor = my_bst["root"]
-        while mayor["right"] is not None:
-            mayor = mayor["right"]
-        return mayor["key"], mayor["value"]
+    return raiz["key"]
+
+def get_max(my_bst):
+    
+    if my_bst["root"] is not None:
+        return get_max_node(my_bst["root"])
     
     return None
    
@@ -183,4 +194,148 @@ def delete_max_tree(root):
 def delete_max(my_bst):
     my_bst["root"] = delete_max_tree(my_bst["root"])
     return my_bst
+
+
+def height_tree (root):
     
+    if root is None:
+        return 0
+    
+    altura_izquierda = height_tree(root["left"])
+    altura_derecha = height_tree(root["right"])
+    
+    return 1 + max(altura_izquierda, altura_derecha)
+
+def height (my_bst):
+    
+    return height_tree(my_bst["root"])
+
+
+def floor_key (root, key): # No estaba en el laboratorio, pero como estaba en el test, la implementamos por si acaso y para futuros labs.
+    
+    if root is None:
+        return None
+    
+    if key == root["key"]:
+        return root["key"]
+    
+    if key < root["key"]:
+        return floor_key(root["left"], key)
+    
+    elegido = floor_key(root["right"], key)
+    if elegido is not None:
+        return elegido
+    
+    return root["key"]
+
+def floor (my_bst, key): # No estaba en el laboratorio, pero como estaba en el test, la implementamos por si acaso y para futuros labs.
+    
+    return floor_key(my_bst["root"], key)
+
+
+def ceiling_key (root, key): # No estaba en el laboratorio, pero como estaba en el test, la implementamos por si acaso y para futuros labs.
+    
+    if root is None:
+        return None
+    
+    if key == root["key"]:
+        return root["key"]
+    
+    if key > root["key"]:
+        return floor_key(root["right"], key)
+    
+    elegido = floor_key(root["right"], key)
+    if elegido is not None:
+        return elegido
+    
+    return root["key"]
+
+def ceiling (my_bst, key): # No estaba en el laboratorio, pero como estaba en el test, la implementamos por si acaso y para futuros labs.
+    
+    return floor_key(my_bst["root"], key)
+
+
+def keys_range (root, key_initial, key_final, list_key):
+    
+    if root is None:
+        return list_key
+    
+    if key_initial < root["key"]:
+        keys_range(root["left"], key_initial, key_final, list_key)
+    
+    if key_initial <= root["key"] <= key_final:
+        sl.add_last(list_key, root["key"])
+        
+    if root["key"] < key_final:
+        keys_range(root["right"], key_initial, key_final, list_key)
+        
+    return list_key
+
+def keys (my_bst, key_initial, key_final):
+    
+    lista_llaves = sl.new_list()
+    keys_range(my_bst["root"], key_initial, key_final, lista_llaves)
+    
+    return lista_llaves 
+
+
+def values_range (root, key_lo, key_hi, list_values):
+    
+    if root is None:
+        return list_values
+    
+    if key_lo < root["key"]:
+        values_range(root["left"], key_lo, key_hi, list_values)
+        
+    if key_lo <= root["key"] <= key_hi:
+        sl.add_last(list_values, root["value"])
+        
+    if root["key"] < key_hi:
+        values_range(root["right"], key_lo, key_hi, list_values)
+        
+    return list_values
+
+def values (my_bst, key_initial, key_final):
+    
+    lista_valores = sl.new_list()
+    values_range(my_bst["root"], key_initial, key_final, lista_valores)
+    
+    return lista_valores
+
+
+def select_key (root, key): # No estaba en el laboratorio, pero como estaba en el test, la implementamos por si acaso y para futuros labs.
+    
+    if root is None:
+        return None
+    
+    tamaño_izquierda = size_tree(root["left"])
+    
+    if tamaño_izquierda > key:
+        return select_key(root["left"], key)
+    elif tamaño_izquierda < key:
+        return select_key(root["right"], key - (tamaño_izquierda - 1))
+    else:
+        return root
+    
+def select (my_bst, pos): # No estaba en el laboratorio, pero como estaba en el test, la implementamos por si acaso y para futuros labs.
+    
+    nodo = select_key(my_bst["root"], pos)
+    if nodo is not None:
+        return nodo["key"]
+    
+    return None
+
+
+def rank_keys (root, key): # No estaba en el laboratorio, pero como estaba en el test, la implementamos por si acaso y para futuros labs.
+    
+    if root is None:
+        return 0
+    
+    if key <= root["key"]:
+        return rank_keys(root["left"], key)
+    
+    return 1 + size_tree(root["left"]) + rank_keys(root["right"], key)
+
+def rank (my_bst, key): # No estaba en el laboratorio, pero como estaba en el test, la implementamos por si acaso y para futuros labs.
+    
+    return rank_keys(my_bst["root"], key)
